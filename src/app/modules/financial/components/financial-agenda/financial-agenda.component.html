@@ -1,0 +1,82 @@
+<div class="card p-4 shadow-2 border-round bg-white">
+    <div class="flex justify-content-between align-items-center mb-4">
+        <h2 class="m-0 text-700">Agenda Financeira</h2>
+        <button pButton label="Novo Lançamento" icon="pi pi-plus" (click)="displayDialog = true"></button>
+    </div>
+
+    <p-table [value]="transactions" [rows]="10" [paginator]="true" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Status</th>
+                <th>Vencimento</th>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-t>
+            <tr [ngClass]="{'bg-red-50': isOverdue(t)}">
+                <td>
+                    <p-badge [value]="t.status"
+                        [severity]="t.status === 'PAGO' ? 'success' : (isOverdue(t) ? 'danger' : 'warn')">
+                    </p-badge>
+                </td>
+                <td [class.text-red-600]="isOverdue(t)" [class.font-bold]="isOverdue(t)">
+                    {{ t.dueDate | date:'dd/MM/yyyy' }}
+                </td>
+                <td>{{ t.description }}</td>
+                <td>{{ t.categoryName }}</td>
+                <td [class.text-green-600]="t.type === 'REVENUE'" [class.text-red-600]="t.type === 'EXPENSE'"
+                    class="font-bold">
+                    {{ t.amount | currency:'BRL' }}
+                </td>
+                <td>
+                    <button *ngIf="t.status === 'PENDENTE'" pButton icon="pi pi-check"
+                        class="p-button-rounded p-button-success p-button-text" (click)="confirmPayment(t.id)"
+                        pTooltip="Confirmar Pagamento">
+                    </button>
+                </td>
+                <td>
+                    <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-info p-button-text mr-2"
+                        (click)="editTransaction(t)" pTooltip="Editar">
+                    </button>
+                    <button *ngIf="t.status === 'PENDENTE'" pButton icon="pi pi-check" ...>
+                    </button>
+                </td>
+
+                <p-dialog [header]="isEditing ? 'Editar Lançamento' : 'Novo Lançamento'" ...></p-dialog>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog header="Novo Lançamento Financeiro" [(visible)]="displayDialog" [modal]="true" [style]="{width: '450px'}">
+    <div class="grid p-fluid">
+        <div class="col-12 mb-3">
+            <p-selectButton [options]="[{label: 'Receita', value: 'REVENUE'}, {label: 'Despesa', value: 'EXPENSE'}]"
+                [(ngModel)]="newTransaction.type"></p-selectButton>
+        </div>
+        <div class="col-12 field">
+            <label>Descrição</label>
+            <input type="text" pInputText [(ngModel)]="newTransaction.description">
+        </div>
+        <div class="col-6 field">
+            <label>Valor</label>
+            <p-inputNumber [(ngModel)]="newTransaction.amount" mode="currency" currency="BRL"></p-inputNumber>
+        </div>
+        <div class="col-6 field">
+            <label>Vencimento</label>
+            <p-calendar [(ngModel)]="newTransaction.dueDate" dateFormat="dd/mm/yy"></p-calendar>
+        </div>
+        <div class="col-12 field">
+            <label>Observações</label>
+            <textarea pInputTextarea [(ngModel)]="newTransaction.notes"></textarea>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text"
+            (click)="displayDialog = false"></button>
+        <button pButton label="Salvar" icon="pi pi-check" (click)="save()"></button>
+    </ng-template>
+</p-dialog>

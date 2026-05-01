@@ -1,0 +1,18 @@
+:host ::ng-deep .border-red {
+    border-left: 6px solid #d32f2f !important;
+    background-color: #fff8f8;
+    /* Fundo levemente rosado para alerta */
+}
+
+:host ::ng-deep .border-green {
+    border-left: 6px solid #2e7d32 !important;
+}
+
+:host ::ng-deep .border-blue {
+    border-left: 6px solid #0288d1 !important;
+}
+
+/* Ajuste para as células não ficarem coladas na borda */
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+    padding-left: 1rem;
+}

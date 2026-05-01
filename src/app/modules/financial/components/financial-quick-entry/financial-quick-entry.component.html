@@ -1,0 +1,43 @@
+<div class="quick-entry-container p-2">
+    <h5 class="mt-0 mb-3 text-700">Lançamento Rápido</h5>
+
+    <div class="flex gap-2 mb-3">
+        <button pButton type="button" label="Nova Receita" icon="pi pi-arrow-circle-down" (click)="setType('REVENUE')"
+            [class]="transactionType === 'REVENUE' ? 'p-button-success flex-1' : 'p-button-outlined p-button-success flex-1'">
+        </button>
+
+        <button pButton type="button" label="Nova Despesa" icon="pi pi-arrow-circle-up" (click)="setType('EXPENSE')"
+            [class]="transactionType === 'EXPENSE' ? 'p-button-danger flex-1' : 'p-button-outlined p-button-danger flex-1'">
+        </button>
+    </div>
+
+    <div class="flex flex-column gap-2 mb-3">
+        <label class="font-bold text-sm text-700">Situação do Lançamento</label>
+        <p-selectButton [options]="statusOptions" formControlName="status" optionLabel="label" optionValue="value"
+            styleClass="w-full p-fluid"></p-selectButton>
+    </div>
+
+    <form [formGroup]="quickForm" (ngSubmit)="save()" class="flex flex-column gap-3">
+
+        <span class="p-input-icon-left w-full">
+            <i class="pi pi-money-bill"></i>
+            <p-inputNumber formControlName="amount" mode="currency" currency="BRL" locale="pt-BR" placeholder="R$ 0,00"
+                class="w-full" styleClass="w-full"></p-inputNumber>
+        </span>
+
+        <p-dropdown [options]="categories" formControlName="categoryName" placeholder="Grupo de Conta..."
+            [style]="{'width':'100%'}" optionLabel="label" optionValue="value">
+        </p-dropdown>
+
+        <p-calendar formControlName="dueDate" dateFormat="dd/mm/yy" [showIcon]="true" class="w-full"
+            styleClass="w-full"></p-calendar>
+
+        <textarea pInputTextarea formControlName="description" rows="3" placeholder="Descrição curta..."
+            class="w-full"></textarea>
+
+        <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-primary w-full mt-2"
+            [disabled]="quickForm.invalid">
+        </button>
+
+    </form>
+</div>

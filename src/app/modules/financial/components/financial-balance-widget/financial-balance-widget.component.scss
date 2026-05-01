@@ -1,0 +1,28 @@
+.balance-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #eceff1;
+}
+
+.balance-value {
+    font-size: 1.8rem;
+    /* Bem grande como na imagem */
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.text-success {
+    color: #2e7d32;
+    /* Verde escuro profissional */
+}
+
+.text-danger {
+    color: #d32f2f;
+    /* Vermelho alerta */
+}
+
+/* Ajuste para o dropdown ficar discreto */
+:host ::ng-deep .p-dropdown {
+    font-size: 0.8rem;
+    padding: 2px 8px;
+}

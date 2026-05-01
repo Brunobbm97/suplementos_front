@@ -1,0 +1,145 @@
+<div class="card">
+    <div class="flex justify-content-between align-items-center mb-4">
+        <h2>Gestão de Estoque Físico</h2>
+        <p-button label="Nova Entrada (NF)" icon="pi pi-box" severity="success" (onClick)="openEntryForm()"></p-button>
+    </div>
+
+    <p-table #dt [value]="stockItems" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-striped"
+        [globalFilterFields]="['sku', 'productName', 'locationName', 'brand']">
+
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-end">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="globalFilterValue"
+                        (input)="applyFilterGlobal($event, 'contains', dt)"
+                        placeholder="Pesquisar Produto ou Loja..." />
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>SKU</th>
+                <th>Produto</th>
+                <th>Local</th>
+                <th>Validade</th>
+                <th>Qtd. Física</th>
+                <th>Em Trânsito</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td><p-tag [value]="item.sku" severity="secondary"></p-tag></td>
+                <td class="font-bold">{{ item.productName }} <span class="text-sm font-normal text-500">({{ item.brand
+                        }})</span></td>
+                <td>
+                    <p-tag [value]="item.locationName"
+                        [severity]="item.locationName.includes('Central') ? 'info' : 'warning'"></p-tag>
+                </td>
+                <td>
+                    <i class="pi pi-calendar mr-2 text-500"></i>
+                    {{ item.expirationDate ? (item.expirationDate | date:'dd/MM/yyyy') : 'N/A' }}
+                </td>
+                <td>
+                    <p-tag [value]="item.quantity.toString()"
+                        [severity]="item.quantity > 0 ? 'success' : 'danger'"></p-tag>
+                </td>
+                <td>{{ item.inTransitQuantity || 0 }}</td>
+                <td>{{ item.inTransitQuantity || 0 }}</td>
+                <td class="text-center">
+                    <p-button icon="pi pi-arrow-h" pTooltip="Transferir Produto" [text]="true" [rounded]="true"
+                        severity="help" (onClick)="openTransferForm(item)">
+                    </p-button>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="displayEntryForm" header="Registrar Entrada de Estoque" [modal]="true"
+    [style]="{ width: '50vw' }">
+
+    <form [formGroup]="entryForm" (ngSubmit)="saveEntry()" class="p-fluid grid mt-2">
+
+        <div class="field col-12 md:col-6">
+            <label class="font-bold">Produto</label>
+            <p-dropdown [options]="products" formControlName="productId" optionLabel="name" optionValue="id"
+                placeholder="Selecione o produto" [filter]="true"></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label class="font-bold">Local de Destino</label>
+            <p-dropdown [options]="locations" formControlName="locationId" optionLabel="name" optionValue="id"
+                placeholder="Selecione o local"></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <label class="font-bold">Quantidade (Un.)</label>
+            <p-inputNumber formControlName="quantity" [showButtons]="true" [min]="1"></p-inputNumber>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <label class="font-bold">Custo Total (NF)</label>
+            <p-inputNumber formControlName="totalCost" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <label class="font-bold">Data de Validade</label>
+            <p-calendar formControlName="expirationDate" dateFormat="dd/mm/yy" [showIcon]="true"
+                appendTo="body"></p-calendar>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label class="font-bold">Novo Preço de Venda (Opcional)</label>
+            <p-inputNumber formControlName="newSalePrice" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label class="font-bold">Nº da Nota Fiscal (Opcional)</label>
+            <input pInputText formControlName="invoiceNumber" placeholder="Ex: NF-12345" />
+        </div>
+
+        <div class="col-12 flex justify-content-end gap-2 mt-4">
+            <p-button label="Cancelar" icon="pi pi-times" [text]="true" severity="secondary"
+                (onClick)="displayEntryForm = false"></p-button>
+            <p-button label="Confirmar Entrada" icon="pi pi-check" type="submit"
+                [disabled]="entryForm.invalid"></p-button>
+        </div>
+
+    </form>
+</p-dialog>
+
+
+<p-dialog [(visible)]="displayTransferForm" header="Transferência Direta entre Unidades" [modal]="true"
+    [style]="{ width: '450px' }">
+    <div *ngIf="selectedItemForTransfer" class="mb-4 p-3 bg-blue-50 border-round">
+        <div class="text-sm text-700">Produto: <b>{{selectedItemForTransfer.productName}}</b></div>
+        <div class="text-sm text-700">Origem: <b>{{selectedItemForTransfer.locationName}}</b></div>
+        <div class="text-sm text-700">Estoque Disponível: <b class="text-primary">{{selectedItemForTransfer.quantity}}
+                un.</b></div>
+    </div>
+
+    <form [formGroup]="transferForm" (ngSubmit)="saveTransfer()" class="p-fluid">
+        <div class="field">
+            <label class="font-bold">Local de Destino</label>
+            <p-dropdown [options]="locations" formControlName="destinationLocationId" optionLabel="name"
+                optionValue="id" placeholder="Selecione o destino" [filter]="true">
+            </p-dropdown>
+        </div>
+
+        <div class="field mt-3">
+            <label class="font-bold">Quantidade a Transferir</label>
+            <p-inputNumber formControlName="quantity" [showButtons]="true" [min]="1"
+                [max]="selectedItemForTransfer?.quantity">
+            </p-inputNumber>
+        </div>
+
+        <div class="col-12 flex justify-content-end gap-2 mt-4">
+            <p-button label="Cancelar" icon="pi pi-times" [text]="true" severity="secondary"
+                (onClick)="displayTransferForm = false"></p-button>
+            <p-button label="Confirmar Transferência" icon="pi pi-arrow-right" type="submit"
+                [disabled]="transferForm.invalid" severity="help"></p-button>
+        </div>
+    </form>
+</p-dialog>

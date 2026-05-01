@@ -39,6 +39,8 @@
               }
             ],
             "styles": [
+              "primeicons/primeicons.css",
+              "primeflex/primeflex.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -68,6 +70,9 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
@@ -98,6 +103,8 @@
               }
             ],
             "styles": [
+              "primeicons/primeicons.css",
+              "primeflex/primeflex.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -105,5 +112,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

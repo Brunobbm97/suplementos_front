@@ -1,0 +1,28 @@
+<div class="financial-container">
+    <div class="grid p-3">
+
+        <div class="col-12 md:col-9">
+            <div class="mb-4">
+                <app-financial-chart></app-financial-chart>
+            </div>
+
+            <div class="card shadow-1 p-3">
+                <h5 class="mt-0 mb-3 font-bold">Lançamentos não liquidados</h5>
+                <app-financial-pending-table></app-financial-pending-table>
+            </div>
+        </div>
+
+        <div class="col-12 md:col-3">
+            <div class="sticky-sidebar">
+                <div class="mb-3">
+                    <app-financial-balance-widget></app-financial-balance-widget>
+                </div>
+
+                <div class="card shadow-1 p-2 bg-yellow-50">
+                    <app-financial-quick-entry></app-financial-quick-entry>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

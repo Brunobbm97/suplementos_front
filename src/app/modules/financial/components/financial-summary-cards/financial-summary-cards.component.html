@@ -1,0 +1,39 @@
+<div class="grid mt-2">
+
+    <div class="col-12 md:col-4">
+        <div class="card-summary shadow-1 p-3">
+            <span class="text-500 font-medium block mb-2">Despesas R$</span>
+            <div class="flex align-items-center">
+                <div class="sparkline-container">
+                    <p-chart type="line" [data]="expenseData" [options]="sparklineOptions"></p-chart>
+                </div>
+                <div class="text-danger font-bold text-xl ml-3">{{ summary.totalExpense | currency:'BRL' }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-4">
+        <div class="card-summary shadow-1 p-3">
+            <span class="text-500 font-medium block mb-2">Receitas R$</span>
+            <div class="flex align-items-center">
+                <div class="sparkline-container">
+                    <p-chart type="line" [data]="revenueData" [options]="sparklineOptions"></p-chart>
+                </div>
+                <div class="text-success font-bold text-xl ml-3">{{ summary.totalRevenue | currency:'BRL' }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-4">
+        <div class="card-summary shadow-1 p-3">
+            <span class="text-500 font-medium block mb-2">Saldo no Período R$</span>
+            <div class="flex align-items-center">
+                <div class="sparkline-container">
+                    <p-chart type="line" [data]="revenueData" [options]="sparklineOptions"></p-chart>
+                </div>
+                <div class="text-warm font-bold text-xl ml-3">{{ summary.netBalance | currency:'BRL' }}</div>
+            </div>
+        </div>
+    </div>
+
+</div>

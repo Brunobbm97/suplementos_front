@@ -1,0 +1,76 @@
+<div class="card p-4 shadow-2 border-round bg-white">
+    <div class="flex justify-content-between align-items-center mb-4">
+        <h2 class="m-0"><i class="pi pi-history mr-2"></i>Histórico de Movimentações</h2>
+        <p-button icon="pi pi-refresh" (onClick)="loadHistory()" [text]="true" [rounded]="true"></p-button>
+    </div>
+
+    <p-table #dt [value]="movements" [paginator]="true" [rows]="10" [loading]="loading"
+        [globalFilterFields]="['productName', 'type', 'sourceLocationName', 'destinationLocationName']"
+        styleClass="p-datatable-striped p-datatable-sm" [tableStyle]="{'min-width': '60rem'}">
+
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-between align-items-center">
+                <span class="text-xl font-bold">Logs de Estoque</span>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Busca geral..." />
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="movementDate">Data/Hora <p-sortIcon field="movementDate"></p-sortIcon></th>
+                <th>Produto</th>
+                <th>Tipo</th>
+                <th>
+                    Origem
+                    <p-columnFilter field="sourceLocationName" matchMode="equals" [display]="'menu'"
+                        [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-dropdown [ngModel]="value" [options]="locations" (onChange)="filter($event.value)"
+                                placeholder="Filtrar Origem" [showClear]="true">
+                                <ng-template let-option pTemplate="item">
+                                    <p-tag [value]="option.label" severity="secondary"></p-tag>
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    Destino
+                    <p-columnFilter field="destinationLocationName" matchMode="equals" [display]="'menu'"
+                        [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-dropdown [ngModel]="value" [options]="locations" (onChange)="filter($event.value)"
+                                placeholder="Filtrar Destino" [showClear]="true">
+                                <ng-template let-option pTemplate="item">
+                                    <p-tag [value]="option.label" severity="secondary"></p-tag>
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th class="text-right">Quantidade</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-m>
+            <tr>
+                <td>{{ m.movementDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td class="font-bold">{{ m.productName }}</td>
+                <td>
+                    <p-tag [value]="getTypeLabel(m.type)" [severity]="getTypeSeverity(m.type)"></p-tag>
+                </td>
+                <td>{{ m.sourceLocationName }}</td>
+                <td>{{ m.destinationLocationName }}</td>
+                <td class="text-right font-bold" [ngClass]="m.type === 'ENTRY' ? 'text-green-600' : 'text-blue-600'">
+                    {{ m.type === 'ENTRY' ? '+' : '' }}{{ m.quantity }} un.
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-toast></p-toast>

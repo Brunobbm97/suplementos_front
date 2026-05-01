@@ -1,0 +1,32 @@
+<div class="card shadow-1 p-3 bg-white border-round">
+    <div class="flex justify-content-between align-items-center mb-4">
+        <div class="flex gap-2">
+            <p-dropdown [options]="periods" [(ngModel)]="selectedPeriod" optionLabel="label" optionValue="value"
+                (onChange)="loadAndFilterData()">
+            </p-dropdown>
+
+            <p-dropdown [options]="statusOptions" [(ngModel)]="selectedStatus" optionLabel="label" optionValue="value"
+                (onChange)="loadAndFilterData()">
+            </p-dropdown>
+        </div>
+        <span class="text-700 font-bold uppercase text-xs tracking-wider">Análise de Fluxo</span>
+    </div>
+
+    <div class="text-center mb-4">
+        <h4 class="m-0 font-medium text-800">
+            Despesas x Receitas - {{ selectedStatus === 'PAGO' ? 'Liquidado' : 'Não Liquidado' }}
+        </h4>
+        <small class="text-500">Visualização baseada na data de vencimento</small>
+    </div>
+
+    <div style="height: 300px">
+        <p-chart *ngIf="chartData" type="line" [data]="chartData" [options]="chartOptions"></p-chart>
+
+        <div *ngIf="!chartData || chartData.labels.length === 0"
+            class="flex align-items-center justify-content-center h-full text-500 italic">
+            Nenhuma movimentação encontrada para este filtro.
+        </div>
+    </div>
+
+    <app-financial-summary-cards></app-financial-summary-cards>
+</div>

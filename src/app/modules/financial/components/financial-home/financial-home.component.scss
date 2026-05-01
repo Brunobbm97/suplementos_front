@@ -1,0 +1,17 @@
+.financial-container {
+    background-color: var(--surface-ground);
+    min-height: 100vh;
+}
+
+.sticky-sidebar {
+    position: sticky;
+    top: 1rem;
+    /* Fica fixo no topo ao rolar a página */
+}
+
+/* Estilo para simular o card da imagem */
+.bg-yellow-50 {
+    background-color: #fffde7;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}

@@ -1,0 +1,14 @@
+.quick-entry-container {
+    background-color: #fffde7;
+    /* Amarelo bem claro do modelo */
+    border-radius: 4px;
+}
+
+:host ::ng-deep .p-inputtext {
+    border-radius: 4px;
+}
+
+/* Deixa os botões com ícones alinhados como na imagem */
+.flex-1 {
+    flex: 1;
+}

@@ -1,0 +1,46 @@
+<p-dialog [(visible)]="visible" [header]="product?.id ? 'Editar Produto' : 'Novo Produto'" [modal]="true"
+    [style]="{ width: '50vw' }" [breakpoints]="{ '960px': '75vw', '641px': '90vw' }" (onHide)="onClose.emit()">
+
+    <form [formGroup]="productForm" (ngSubmit)="save()" class="p-fluid grid mt-2">
+
+        <div class="field col-12">
+            <label htmlFor="name" class="font-bold">Nome do Suplemento</label>
+            <input pInputText id="name" formControlName="name" placeholder="Ex: Whey Protein Isolado" />
+            <small class="p-error block" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.dirty">
+                Nome é obrigatório.
+            </small>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label htmlFor="sku" class="font-bold">SKU (Código Interno)</label>
+            <input pInputText id="sku" [value]="product?.id ? product?.sku : 'GERADO AUTOMATICAMENTE PELO SISTEMA'"
+                [disabled]="true" class="bg-gray-100 font-italic surface-200" />
+        </div>
+        <div class="field col-12 md:col-6">
+            <label htmlFor="brand" class="font-bold">Marca</label>
+            <input pInputText id="brand" formControlName="brand" />
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label htmlFor="flavor" class="font-bold">Sabor</label>
+            <input pInputText id="flavor" formControlName="flavor" />
+        </div>
+        <div class="field col-12 md:col-6">
+            <label htmlFor="salePrice" class="font-bold">Preço de Venda</label>
+            <p-inputNumber id="salePrice" formControlName="salePrice" mode="currency" currency="BRL"
+                locale="pt-BR"></p-inputNumber>
+        </div>
+
+        <div class="field col-12">
+            <label htmlFor="description" class="font-bold">Descrição / Observações</label>
+            <textarea pInputTextarea id="description" formControlName="description" rows="3"></textarea>
+        </div>
+
+        <div class="col-12 flex justify-content-end gap-2 mt-4">
+            <p-button label="Cancelar" icon="pi pi-times" [text]="true" severity="secondary"
+                (onClick)="onClose.emit()"></p-button>
+            <p-button label="Salvar" icon="pi pi-check" type="submit" [disabled]="productForm.invalid"></p-button>
+        </div>
+
+    </form>
+</p-dialog>

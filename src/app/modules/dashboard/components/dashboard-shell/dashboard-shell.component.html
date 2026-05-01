@@ -1,0 +1,147 @@
+<div class="layout-wrapper">
+    <p-toolbar styleClass="layout-navbar shadow-2">
+        <div class="p-toolbar-group-start">
+            <p-button icon="pi pi-bars" (onClick)="toggleSidebar()" [rounded]="true" [text]="true"></p-button>
+            <img src="assets/logo-empresa.png" alt="Logo" class="navbar-logo">
+            <span class="navbar-brand-text">ERP</span>
+        </div>
+
+        <div class="p-toolbar-group-center">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" placeholder="Buscar no sistema..." class="navbar-search-input" />
+            </span>
+        </div>
+
+        <div class="p-toolbar-group-end">
+            <p-button [icon]="themeService.isDark() ? 'pi pi-sun' : 'pi pi-moon'" (onClick)="themeService.toggleTheme()"
+                [rounded]="true" [text]="true" severity="secondary" class="navbar-theme-button" pTooltip="Alternar Tema"
+                tooltipPosition="bottom">
+            </p-button>
+            <span class="navbar-user-name">Bruno Machado</span>
+            <p-avatar icon="pi pi-user" shape="circle" styleClass="navbar-avatar"></p-avatar>
+        </div>
+    </p-toolbar>
+
+    <div class="layout-body">
+        <aside class="layout-sidebar" [ngClass]="{'collapsed': isCollapsed}">
+            <ul class="menu-list">
+                <li [pTooltip]="'Dashboard'" tooltipPosition="right" [tooltipDisabled]="!isCollapsed"
+                    routerLink="/dashboard/home" routerLinkActive="active-link">
+                    <i class="pi pi-home"></i>
+                    <span *ngIf="!isCollapsed">Dashboard</span>
+                </li>
+
+                <li [pTooltip]="'Produtos e Estoque'" tooltipPosition="right" [tooltipDisabled]="!isCollapsed"
+                    (click)="toggleProductsMenu()" class="menu-category-header">
+                    <div class="menu-item-content">
+                        <div>
+                            <i class="pi pi-box"></i>
+                            <span *ngIf="!isCollapsed" class="menu-text">Produtos</span>
+                        </div>
+                        <i *ngIf="!isCollapsed" class="pi menu-chevron"
+                            [ngClass]="isProductsOpen ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+                    </div>
+                </li>
+
+                <ul *ngIf="isProductsOpen && !isCollapsed" class="submenu-list">
+                    <li routerLink="/dashboard/products" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{exact: true}" class="submenu-item">
+                        <i class="pi pi-list"></i>
+                        <span class="submenu-text">Catálogo</span>
+                    </li>
+                    <li routerLink="/dashboard/products/stock" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{exact: true}" class="submenu-item">
+                        <i class="pi pi-warehouse"></i>
+                        <span class="submenu-text">Estoque Físico</span>
+                    </li>
+                    <li routerLink="/dashboard/products/historico-estoque" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{exact: true}" class="submenu-item">
+                        <i class="pi pi-history"></i>
+                        <span class="submenu-text">Movimentações</span>
+                    </li>
+                </ul>
+
+                <li [pTooltip]="'Vendas'" tooltipPosition="right" [tooltipDisabled]="!isCollapsed"
+                    (click)="toggleSalesMenu()" class="menu-category-header">
+                    <div class="menu-item-content">
+                        <div>
+                            <i class="pi pi-shopping-cart"></i>
+                            <span *ngIf="!isCollapsed" class="menu-text">Vendas</span>
+                        </div>
+                        <i *ngIf="!isCollapsed" class="pi menu-chevron"
+                            [ngClass]="isSalesOpen ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+                    </div>
+                </li>
+                <ul *ngIf="isSalesOpen && !isCollapsed" class="submenu-list">
+                    <li routerLink="/dashboard/sales" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{exact: true}" class="submenu-item">
+                        <i class="pi pi-desktop"></i>
+                        <span class="submenu-text">Nova Venda (PDV)</span>
+                    </li>
+                    <li routerLink="/dashboard/sales/historico" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{exact: true}" class="submenu-item">
+                        <i class="pi pi-history"></i>
+                        <span class="submenu-text">Histórico</span>
+                    </li>
+                </ul>
+
+                <li [pTooltip]="'Gestão Financeira'" tooltipPosition="right" [tooltipDisabled]="!isCollapsed"
+                    (click)="toggleFinancialMenu()" class="menu-category-header">
+                    <div class="menu-item-content">
+                        <div>
+                            <i class="pi pi-dollar"></i> <span *ngIf="!isCollapsed" class="menu-text">Financeiro</span>
+                        </div>
+                        <i *ngIf="!isCollapsed" class="pi menu-chevron"
+                            [ngClass]="isFinancialOpen ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+                    </div>
+                </li>
+
+                <ul *ngIf="isFinancialOpen && !isCollapsed" class="submenu-list">
+                    <li routerLink="/dashboard/financial" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{exact: true}" class="submenu-item">
+                        <i class="pi pi-calendar-plus"></i>
+                        <span class="submenu-text">Agenda e Pagamentos</span>
+                    </li>
+
+                    <li routerLink="/dashboard/financial/fluxo-caixa" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{exact: true}" class="submenu-item">
+                        <i class="pi pi-chart-line"></i>
+                        <span class="submenu-text">Fluxo de Caixa</span>
+                    </li>
+                </ul>
+
+                <li [pTooltip]="'Administração'" tooltipPosition="right" [tooltipDisabled]="!isCollapsed"
+                    (click)="toggleAdminMenu()" class="menu-category-header">
+                    <div class="menu-item-content">
+                        <div>
+                            <i class="pi pi-cog"></i>
+                            <span *ngIf="!isCollapsed" class="menu-text">Administração</span>
+                        </div>
+                        <i *ngIf="!isCollapsed" class="pi menu-chevron"
+                            [ngClass]="isAdminOpen ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+                    </div>
+                </li>
+                <ul *ngIf="isAdminOpen && !isCollapsed" class="submenu-list">
+                    <li routerLink="/dashboard/admin/locais" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{exact: true}" class="submenu-item">
+                        <i class="pi pi-map-marker"></i>
+                        <span class="submenu-text">Locais e Lojas</span>
+                    </li>
+                    <li routerLink="/dashboard/admin/categorias-financeiras" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{exact: true}" class="submenu-item">
+                        <i class="pi pi-tags"></i>
+                        <span class="submenu-text">Categorias Financeiras</span>
+                    </li>
+                </ul>
+            </ul>
+        </aside>
+
+        <main class="layout-content">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>
+
+<p-toast></p-toast>
+<p-confirmDialog key="deleteConfirm"></p-confirmDialog>

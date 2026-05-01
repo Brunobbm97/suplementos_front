@@ -1,0 +1,22 @@
+<div class="balance-card p-3 shadow-1">
+    <div class="flex justify-content-between align-items-center mb-2">
+        <span class="text-500 font-medium">Saldo Atual</span>
+        <p-dropdown [options]="locations" [(ngModel)]="selectedLocation"
+            styleClass="p-inputtext-sm border-none bg-gray-100"></p-dropdown>
+    </div>
+
+    <div class="flex align-items-center justify-content-end gap-3 mt-3">
+        <div class="balance-value" [ngClass]="balance >= 0 ? 'text-success' : 'text-danger'">
+            <ng-container *ngIf="isVisible; else masked">
+                {{ balance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </ng-container>
+            <ng-template #masked>
+                R$ ••••••••
+            </ng-template>
+        </div>
+
+        <button pButton type="button" [icon]="isVisible ? 'pi pi-eye-slash' : 'pi pi-eye'" (click)="toggleVisibility()"
+            class="p-button-rounded p-button-text p-button-secondary">
+        </button>
+    </div>
+</div>
