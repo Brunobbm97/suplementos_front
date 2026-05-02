@@ -57,7 +57,10 @@ export class LocationManagementComponent implements OnInit {
   }
 
   openNew() {
+    this.isEditing = false;
+    this.currentLocationId = null;
     this.locationForm.reset();
+    this.displayForm = true; // <-- Esta é a linha que faz o modal aparecer!
   }
 
   editLocation(location: any) {
