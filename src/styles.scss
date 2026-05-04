@@ -3,6 +3,10 @@ body {
     margin: 0;
     font-family: var(--p-family);
     /* Usa a fonte padrão do preset Lara */
-    background-color: var(--p-surface-50);
-    color: var(--p-surface-900);
+
+    /* Varia dinamicamente: Cinza claro no Light Mode, Cinza muito escuro no Dark Mode */
+    background-color: var(--surface-ground, var(--p-surface-ground));
+
+    /* Varia dinamicamente: Quase preto no Light Mode, Branco/Cinza claro no Dark Mode */
+    color: var(--text-color, var(--p-text-color));
 }

@@ -6,7 +6,8 @@ import { InventoryItem } from '../../../product/interface/product.interface';
 @Component({
   selector: 'app-dashboard-home',
   standalone: false,
-  templateUrl: './dashboard-home.component.html'
+  templateUrl: './dashboard-home.component.html',
+  styleUrl: './dashboard-home.component.scss'
 })
 export class DashboardHomeComponent implements OnInit {
   // Dados do Dashboard (KPIs e Gráficos)

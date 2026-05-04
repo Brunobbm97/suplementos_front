@@ -1,0 +1,76 @@
+/* Estilo geral para os painéis do Dashboard */
+.dashboard-panel {
+    background-color: var(--surface-card, var(--p-surface-card));
+    border-radius: var(--border-radius, var(--p-content-border-radius, 6px));
+}
+
+.panel-title {
+    color: var(--text-color, var(--p-text-color));
+}
+
+/* Estilo específico para os Cards Superiores (KPIs) */
+.kpi-card {
+    background-color: var(--surface-card, var(--p-surface-card));
+    border-radius: var(--border-radius, var(--p-content-border-radius, 6px));
+    border-left: 4px solid transparent;
+
+    .kpi-title {
+        color: var(--text-color-secondary, var(--p-text-muted-color));
+    }
+
+    .kpi-value {
+        color: var(--text-color, var(--p-text-color));
+    }
+
+    .kpi-icon-wrapper {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: var(--border-radius, var(--p-content-border-radius, 6px));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Variações de Cores para cada Card (Usando cores hexadecimais diretas para garantir a exibição) */
+    &.revenue {
+        border-left-color: #22c55e;
+
+        /* Verde */
+        .kpi-icon-wrapper {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .kpi-subtitle {
+            color: #22c55e;
+        }
+    }
+
+    &.expense {
+        border-left-color: #ef4444;
+
+        /* Vermelho */
+        .kpi-icon-wrapper {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .kpi-subtitle {
+            color: #ef4444;
+        }
+    }
+
+    &.balance {
+        border-left-color: #3b82f6;
+
+        /* Azul */
+        .kpi-icon-wrapper {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .kpi-subtitle {
+            color: #3b82f6;
+        }
+    }
+}

@@ -1,77 +1,80 @@
 <div class="grid p-3">
+    <!-- Seletor de Período -->
     <div class="col-12 flex justify-content-end mb-3">
         <p-selectButton [options]="periodOptions" [(ngModel)]="selectedPeriod" (onChange)="loadDashboardData()"
             optionLabel="label" optionValue="value">
         </p-selectButton>
     </div>
 
+    <!-- Card: Receita Total -->
     <div class="col-12 md:col-4">
-        <div class="card shadow-2 p-3 border-round bg-green-50 border-left-3 border-green-500">
+        <div class="card shadow-2 p-3 kpi-card revenue">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Receita Total</span>
-                    <div class="text-900 font-bold text-2xl">
+                    <span class="block font-medium mb-3 kpi-title">Receita Total</span>
+                    <div class="font-bold text-2xl kpi-value">
                         {{ dashboardData?.kpis?.totalRevenue | currency:'BRL' }}
                     </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-green-100 border-round"
-                    style="width:2.5rem;height:2.5rem">
-                    <i class="pi pi-arrow-up text-green-500 text-xl"></i>
+                <div class="kpi-icon-wrapper">
+                    <i class="pi pi-arrow-up text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-600 font-medium text-sm">Entradas acumuladas</span>
+            <span class="font-medium text-sm kpi-subtitle">Entradas acumuladas</span>
         </div>
     </div>
 
+    <!-- Card: Despesa Total -->
     <div class="col-12 md:col-4">
-        <div class="card shadow-2 p-3 border-round bg-red-50 border-left-3 border-red-500">
+        <div class="card shadow-2 p-3 kpi-card expense">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Despesa Total</span>
-                    <div class="text-900 font-bold text-2xl">
+                    <span class="block font-medium mb-3 kpi-title">Despesa Total</span>
+                    <div class="font-bold text-2xl kpi-value">
                         {{ dashboardData?.kpis?.totalExpense | currency:'BRL' }}
                     </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-red-100 border-round"
-                    style="width:2.5rem;height:2.5rem">
-                    <i class="pi pi-arrow-down text-red-500 text-xl"></i>
+                <div class="kpi-icon-wrapper">
+                    <i class="pi pi-arrow-down text-xl"></i>
                 </div>
             </div>
-            <span class="text-red-600 font-medium text-sm">Saídas de caixa</span>
+            <span class="font-medium text-sm kpi-subtitle">Saídas de caixa</span>
         </div>
     </div>
 
+    <!-- Card: Saldo em Caixa -->
     <div class="col-12 md:col-4">
-        <div class="card shadow-2 p-3 border-round bg-blue-50 border-left-3 border-blue-500">
+        <div class="card shadow-2 p-3 kpi-card balance">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Saldo em Caixa</span>
-                    <div class="text-900 font-bold text-2xl">
+                    <span class="block font-medium mb-3 kpi-title">Saldo em Caixa</span>
+                    <div class="font-bold text-2xl kpi-value">
                         {{ dashboardData?.kpis?.cashBalance | currency:'BRL' }}
                     </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
-                    style="width:2.5rem;height:2.5rem">
-                    <i class="pi pi-wallet text-blue-500 text-xl"></i>
+                <div class="kpi-icon-wrapper">
+                    <i class="pi pi-wallet text-xl"></i>
                 </div>
             </div>
-            <span class="text-blue-600 font-medium text-sm">Lucro operacional</span>
+            <span class="font-medium text-sm kpi-subtitle">Lucro operacional</span>
         </div>
     </div>
 
+    <!-- Gráfico: Fluxo de Vendas -->
     <div class="col-12 lg:col-8 mt-3">
-        <div class="card shadow-2 p-4 bg-white border-round h-full">
-            <h3 class="m-0 mb-4 font-bold text-700">Fluxo de Vendas (Últimos 7 dias)</h3>
+        <div class="card shadow-2 p-4 h-full dashboard-panel">
+            <h3 class="m-0 mb-4 font-bold panel-title">Fluxo de Vendas (Últimos 7 dias)</h3>
             <p-chart type="line" [data]="chartData" [options]="chartOptions" height="300px"></p-chart>
         </div>
     </div>
 
+    <!-- Tabela: Validade Crítica -->
     <div class="col-12 lg:col-4 mt-3">
-        <div class="card shadow-2 p-4 bg-white border-round h-full">
+        <div class="card shadow-2 p-4 h-full dashboard-panel">
             <div class="flex align-items-center justify-content-between mb-4">
-                <div class="flex align-items-center text-orange-600">
+                <div class="flex align-items-center text-orange-500">
                     <i class="pi pi-exclamation-triangle mr-2 text-xl"></i>
-                    <h3 class="m-0 font-bold">Validade Crítica</h3>
+                    <h3 class="m-0 font-bold panel-title">Validade Crítica</h3>
                 </div>
                 <p-badge [value]="(dashboardData?.kpis?.expiringProductsCount?.toString()) ?? '0'" severity="danger">
                 </p-badge>
@@ -87,8 +90,8 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-item>
                     <tr>
-                        <td class="text-sm">{{ item.product.name }}</td>
-                        <td class="text-sm">{{ item.quantity }}</td>
+                        <td class="text-sm panel-title">{{ item.product.name }}</td>
+                        <td class="text-sm panel-title">{{ item.quantity }}</td>
                         <td class="text-sm text-red-500 font-bold">{{ item.expirationDate | date:'dd/MM' }}</td>
                     </tr>
                 </ng-template>
