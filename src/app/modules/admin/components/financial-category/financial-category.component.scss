@@ -1,0 +1,92 @@
+/* =========================================
+   CONTAINER DA PÁGINA (Tabela)
+========================================= */
+.erp-page-container {
+    /* Variáveis nativas do PrimeNG: mudam sozinhas com o tema! */
+    background-color: var(--surface-card) !important;
+    color: var(--text-color);
+
+    padding: 1.5rem;
+    border-radius: var(--border-radius, 8px);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    /* Texto dinâmico */
+}
+
+/* =========================================
+   ESTILOS DA TABELA
+========================================= */
+.col-id {
+    width: 10%;
+}
+
+.col-name {
+    width: 50%;
+}
+
+.col-type {
+    width: 20%;
+}
+
+.col-actions {
+    width: 20%;
+}
+
+.category-name-cell {
+    font-weight: 700;
+    color: var(--text-color);
+    /* Resolve o problema das letras invisíveis */
+}
+
+.empty-message {
+    padding: 1.5rem;
+    color: var(--text-color-secondary);
+    /* Cinza no light, cinza claro no dark */
+}
+
+/* =========================================
+   MODAL (Dialog) E FORMULÁRIO
+========================================= */
+::ng-deep .finance-dialog {
+    width: 400px;
+    max-width: 95vw;
+}
+
+.category-form {
+    margin-top: 1rem;
+}
+
+.field-label {
+    font-weight: 700;
+    color: var(--text-color);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-spacing {
+    margin-top: 1rem;
+}
+
+.form-error {
+    display: block;
+    margin-top: 0.25rem;
+}
+
+/* Rodapé do Formulário (Ações) */
+.form-actions {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-border);
+    /* Borda dinâmica */
+    gap: 0.5rem;
+}

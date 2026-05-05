@@ -1,6 +1,6 @@
-<div class="card p-4 shadow-2 border-round bg-white">
-    <div class="flex justify-content-between align-items-center mb-4">
-        <h2 class="m-0">Categorias Financeiras</h2>
+<div class="erp-page-container">
+    <div class="page-header flex justify-content-between align-items-center">
+        <h2 class="page-title">Categorias Financeiras</h2>
         <p-button label="Nova Categoria" icon="pi pi-plus" severity="success" (onClick)="openNew()"></p-button>
     </div>
 
@@ -8,16 +8,16 @@
         styleClass="p-datatable-striped p-datatable-sm">
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 10%">ID</th>
-                <th style="width: 50%">Nome da Categoria</th>
-                <th style="width: 20%">Tipo</th>
-                <th style="width: 20%" class="text-center">Ações</th>
+                <th class="col-id">ID</th>
+                <th class="col-name">Nome da Categoria</th>
+                <th class="col-type">Tipo</th>
+                <th class="col-actions text-center">Ações</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-cat>
             <tr>
                 <td>{{ cat.id }}</td>
-                <td class="font-bold">{{ cat.name }}</td>
+                <td class="category-name-cell">{{ cat.name }}</td>
                 <td>
                     <p-tag [value]="cat.type === 'REVENUE' ? 'Receita' : 'Despesa'"
                         [severity]="cat.type === 'REVENUE' ? 'success' : 'danger'">
@@ -33,36 +33,37 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="4" class="text-center p-4">Nenhuma categoria cadastrada.</td>
+                <td colspan="4" class="empty-message text-center">Nenhuma categoria cadastrada.</td>
             </tr>
         </ng-template>
     </p-table>
 </div>
 
+<!-- Removido o [style]="{ width: '400px' }" e adicionado o styleClass="finance-dialog" -->
 <p-dialog [(visible)]="displayForm" [header]="isEditing ? 'Editar Categoria' : 'Nova Categoria'" [modal]="true"
-    [style]="{ width: '400px' }">
-    <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()" class="p-fluid mt-3">
+    styleClass="finance-dialog">
+    <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()" class="p-fluid category-form">
 
         <div class="field">
-            <label class="font-bold">Nome da Categoria *</label>
+            <label class="field-label">Nome da Categoria *</label>
             <input type="text" pInputText formControlName="name" placeholder="Ex: Conta de Luz, Vendas Físicas" />
-            <small class="p-error block mt-1"
+            <small class="p-error form-error"
                 *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
                 O nome é obrigatório.
             </small>
         </div>
 
-        <div class="field mt-3">
-            <label class="font-bold">Tipo da Categoria *</label>
+        <div class="field form-spacing">
+            <label class="field-label">Tipo da Categoria *</label>
             <p-dropdown [options]="transactionTypes" formControlName="type" optionLabel="label" optionValue="value"
                 placeholder="Selecione o tipo..."></p-dropdown>
-            <small class="p-error block mt-1"
+            <small class="p-error form-error"
                 *ngIf="categoryForm.get('type')?.invalid && categoryForm.get('type')?.touched">
                 Selecione se é Receita ou Despesa.
             </small>
         </div>
 
-        <div class="flex justify-content-end gap-2 mt-4 pt-3 border-top-1 border-300">
+        <div class="form-actions flex justify-content-end">
             <p-button label="Cancelar" icon="pi pi-times" [text]="true" severity="secondary"
                 (onClick)="displayForm = false"></p-button>
             <p-button [label]="isEditing ? 'Salvar' : 'Criar'" icon="pi pi-check" type="submit"

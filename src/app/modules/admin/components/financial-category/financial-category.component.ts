@@ -7,7 +7,8 @@ import { FinancialCategoryService } from '../../../financial/service/financial-c
   selector: 'app-financial-category',
   standalone: false,
   templateUrl: './financial-category.component.html',
-  providers: [MessageService, ConfirmationService]
+  providers: [MessageService, ConfirmationService],
+  styleUrl: './financial-category.component.scss'
 })
 export class FinancialCategoryComponent implements OnInit {
   categories: any[] = [];
