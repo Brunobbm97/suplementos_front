@@ -1,0 +1,108 @@
+/* =========================================
+   CONTAINER DA PÁGINA (Tabela)
+========================================= */
+.erp-page-container {
+    background-color: var(--surface-card) !important;
+    color: var(--text-color);
+
+    padding: 1.5rem;
+    border-radius: var(--border-radius, 8px);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+/* =========================================
+   ESTILOS DA TABELA
+========================================= */
+.col-id {
+    width: 5%;
+}
+
+.col-name {
+    width: 30%;
+}
+
+.col-type {
+    width: 15%;
+}
+
+.col-city {
+    width: 20%;
+}
+
+.col-phone {
+    width: 15%;
+}
+
+.col-actions {
+    width: 15%;
+}
+
+.location-name-cell {
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.text-secondary {
+    color: var(--text-color-secondary);
+}
+
+.empty-message {
+    padding: 1.5rem;
+    color: var(--text-color-secondary);
+}
+
+/* =========================================
+   MODAL (Dialog) E FORMULÁRIO
+========================================= */
+::ng-deep .location-dialog {
+    width: 700px;
+    max-width: 95vw;
+}
+
+.form-container {
+    margin-top: 0.5rem;
+}
+
+/* Títulos de Seção (Dados Principais, Endereço, Contato) */
+.form-section-header {
+    margin-bottom: 0.5rem;
+
+    &.with-margin {
+        margin-top: 1rem;
+    }
+
+    .section-title {
+        margin: 0;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--surface-border);
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+}
+
+.field-label {
+    font-weight: 700;
+    color: var(--text-color);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Rodapé do Formulário (Ações) */
+.form-actions {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--surface-border);
+    gap: 0.5rem;
+}

@@ -8,7 +8,8 @@ import { LocationService } from '../../../product/service/location.service';
   selector: 'app-location-management',
   standalone: false,
   templateUrl: './location-management.component.html',
-  providers: [MessageService, ConfirmationService]
+  providers: [MessageService, ConfirmationService],
+  styleUrl: './location-management.component.scss'
 })
 export class LocationManagementComponent implements OnInit {
   locations: any[] = [];
