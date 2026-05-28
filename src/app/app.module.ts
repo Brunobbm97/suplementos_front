@@ -14,6 +14,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { HTTP_INTERCEPTORS, withInterceptorsFromDi } from '@angular/common/http'; // <-- Importe isso
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -25,7 +28,7 @@ registerLocaleData(localePt, 'pt-BR');
     BrowserModule,
     ToastModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     MessageService,
@@ -43,7 +46,13 @@ registerLocaleData(localePt, 'pt-BR');
         }
       }
     }),
-    { provide: LOCALE_ID, useValue: 'pt-BR' }
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true // IMPORTANTE: Diz ao Angular que podemos ter VÁRIOS interceptors rodando em fila
+    }
   ],
   bootstrap: [AppComponent]
 })
