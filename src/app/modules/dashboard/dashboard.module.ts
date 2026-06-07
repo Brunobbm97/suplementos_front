@@ -6,12 +6,14 @@ import { DashboardShellComponent } from './components/dashboard-shell/dashboard-
 import { DashboardHomeComponent } from './components/dashboard-home/dashboard-home.component';
 import { SharedModule } from '../../shared/shared.module';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { MenuModule } from 'primeng/menu';
 
 @NgModule({
   declarations: [DashboardShellComponent, DashboardHomeComponent],
   imports: [
     SharedModule,
     DashboardRoutingModule,
+    MenuModule
   ],
   providers: [
     MessageService,

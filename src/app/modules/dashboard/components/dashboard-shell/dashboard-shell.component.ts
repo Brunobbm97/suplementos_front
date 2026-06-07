@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../../../../services/theme.service';
+import { AuthService } from '../../../auth/service/auth-service.service'; // Ajuste o caminho se necessário
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboard-shell',
@@ -7,14 +9,43 @@ import { ThemeService } from '../../../../services/theme.service';
   templateUrl: './dashboard-shell.component.html',
   styleUrl: './dashboard-shell.component.scss'
 })
-export class DashboardShellComponent {
+export class DashboardShellComponent implements OnInit {
   isCollapsed = true;
   isProductsOpen = false;
   isAdminOpen: boolean = false;
   isSalesOpen: boolean = false;
   isFinancialOpen: boolean = false;
 
-  constructor(public themeService: ThemeService) { }
+  // Variável que vai guardar as opções do menu do usuário
+  userMenuItems: MenuItem[] | undefined;
+
+  constructor(
+    public themeService: ThemeService,
+    private authService: AuthService // Injetando o nosso serviço de segurança
+  ) { }
+
+  ngOnInit() {
+    // Construindo o menu flutuante
+    this.userMenuItems = [
+      {
+        label: 'Perfil',
+        icon: 'pi pi-user',
+        command: () => {
+          // Aqui no futuro chamaremos a rota de perfil
+          console.log('Navegar para o perfil');
+        }
+      },
+      { separator: true }, // Uma linha sutil para separar as opções
+      {
+        label: 'Sair',
+        icon: 'pi pi-sign-out',
+        command: () => {
+          // A mágica acontece aqui! Chama a função que limpa o token e redireciona
+          this.authService.logout();
+        }
+      }
+    ];
+  }
 
   toggleSalesMenu() {
     this.isSalesOpen = !this.isSalesOpen;
@@ -25,26 +56,20 @@ export class DashboardShellComponent {
   }
 
   toggleProductsMenu() {
-    // Se a sidebar estiver fechada e o usuário clicar no ícone, nós abrimos a sidebar primeiro
     if (this.isCollapsed) {
       this.isCollapsed = false;
       this.isProductsOpen = true;
     } else {
-      // Se já estiver aberta, apenas alterna o submenu
       this.isProductsOpen = !this.isProductsOpen;
     }
   }
 
   toggleAdminMenu() {
     this.isAdminOpen = !this.isAdminOpen;
-    // Opcional: fechar o menu de produtos quando abrir o de admin para não ficar muito longo
-    // if (this.isAdminOpen) this.isProductsOpen = false; 
   }
 
   toggleFinancialMenu() {
     this.isFinancialOpen = !this.isFinancialOpen;
-
-    // Opcional: fechar os outros menus quando abrir o financeiro
     if (this.isFinancialOpen) {
       this.isProductsOpen = false;
       this.isSalesOpen = false;

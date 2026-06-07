@@ -15,11 +15,17 @@
 
         <div class="p-toolbar-group-end">
             <p-button [icon]="themeService.isDark() ? 'pi pi-sun' : 'pi pi-moon'" (onClick)="themeService.toggleTheme()"
-                [rounded]="true" [text]="true" severity="secondary" class="navbar-theme-button" pTooltip="Alternar Tema"
-                tooltipPosition="bottom">
+                [rounded]="true" [text]="true" severity="secondary" class="navbar-theme-button mr-3"
+                pTooltip="Alternar Tema" tooltipPosition="bottom">
             </p-button>
-            <span class="navbar-user-name">Bruno Machado</span>
-            <p-avatar icon="pi pi-user" shape="circle" styleClass="navbar-avatar"></p-avatar>
+
+            <div class="flex align-items-center cursor-pointer" (click)="userMenu.toggle($event)">
+                <span class="navbar-user-name mr-2 font-medium">Bruno Machado</span>
+                <p-avatar icon="pi pi-user" shape="circle" styleClass="navbar-avatar"></p-avatar>
+                <i class="pi pi-angle-down ml-2 text-color-secondary"></i>
+            </div>
+
+            <p-menu #userMenu [model]="userMenuItems" [popup]="true" styleClass="w-15rem"></p-menu>
         </div>
     </p-toolbar>
 
